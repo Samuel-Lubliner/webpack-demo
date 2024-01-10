@@ -48,3 +48,11 @@ Later on in another guide, we will generate index.html rather than edit it manua
 
 <https://webpack.js.org/guides/output-management/#setting-up-htmlwebpackplugin>
 
+To bundle the lodash dependency with index.js, we'll need to install the library locally:
+
+`npm install --save lodash`
+
+When installing a package that will be bundled into your production bundle, you should use npm install --save. If you're installing a package for development purposes (e.g. a linter, testing libraries, etc.) then you should use npm install --save-dev.
+
+Now, let's import lodash in our script
+
