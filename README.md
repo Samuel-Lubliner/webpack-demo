@@ -30,3 +30,21 @@ Adjust package.json file in order to make sure we mark our package as private, a
 
 <https://docs.npmjs.com/cli/v10/configuring-npm/package-json>
 
+## Creating a Bundle
+
+Separate the "source" code (./src) from our "distribution" code (./dist). The "source" code is the code that we'll write and edit. The "distribution" code is the minimized and optimized output of our build process that will eventually be loaded in the browser. Tweak the directory structure:
+
+```bash
+webpack-demo
+|- package.json
+|- package-lock.json
+|- /dist
+  |- index.html
+|- /src
+  |- index.js
+```
+
+Later on in another guide, we will generate index.html rather than edit it manually:
+
+<https://webpack.js.org/guides/output-management/#setting-up-htmlwebpackplugin>
+
