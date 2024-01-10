@@ -26,3 +26,7 @@ webpack-demo
   |- index.js
 ```
 
+Adjust package.json file in order to make sure we mark our package as private, as well as removing the main entry. This is to prevent an accidental publish of your code.
+
+<https://docs.npmjs.com/cli/v10/configuring-npm/package-json>
+
