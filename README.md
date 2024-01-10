@@ -14,3 +14,15 @@ cd webpack-demo
 npm init -y
 npm install webpack webpack-cli --save-dev
 ```
+
+Create the following directory structure, files and their contents
+
+```bash
+webpack-demo
+|- package.json
+|- package-lock.json
+|- index.html
+|- /src
+  |- index.js
+```
+
