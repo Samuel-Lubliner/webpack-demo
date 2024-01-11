@@ -52,7 +52,30 @@ To bundle the lodash dependency with index.js, we'll need to install the library
 
 `npm install --save lodash`
 
-When installing a package that will be bundled into your production bundle, you should use npm install --save. If you're installing a package for development purposes (e.g. a linter, testing libraries, etc.) then you should use npm install --save-dev.
+When installing a package that will be bundled into your production bundle, you should use `npm install --save`. If you're installing a package for development purposes (e.g. a linter, testing libraries, etc.) then you should use `npm install --save-dev`.
 
-Now, let's import lodash in our script
+Import lodash in src/index.js
+
+Now, since we'll be bundling our scripts, we have to update our `index.html` file. Let's remove the lodash `<script>`, as we now import it, and modify the other `<script>` tag to load the bundle, instead of the raw `./src` file:
+
+## dist/index.html
+
+```html
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8" />
+    <title>Getting Started</title>
+  </head>
+  <body>
+  <script src="main.js"></script>
+  </body>
+</html>
+```
+
+In this setup, `index.js` explicitly requires lodash to be present, and binds it as `_` (no global scope pollution). By stating what dependencies a module needs, webpack can use this information to build a dependency graph. It then uses the graph to generate an optimized bundle where scripts will be executed in the correct order.
+
+Run npx webpack, which will take our script at `src/index.js` as the entry point, and will generate `dist/main.js` as the output. The npx command, which ships with Node 8.2/npm 5.2.0 or higher, runs the webpack binary (./node_modules/.bin/webpack) of the webpack package we installed in the beginning:
+
+`npx webpack`
 
