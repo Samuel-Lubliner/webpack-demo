@@ -89,7 +89,7 @@ Behind the scenes, webpack "transpiles" the code so that older browsers can also
 
 Note that webpack will not alter any code other than import and export statements. If you are using other ES2015 features, make sure to use a transpiler such as Babel via webpack's loader system.
 
-# Using a Configuration
+## Using a Configuration
 
 As of version 4, webpack doesn't require any configuration, but most projects will need a more complex setup. This is much more efficient than having to manually type in a lot of commands in the terminal, so let's create one
 
@@ -101,5 +101,16 @@ If a webpack.config.js is present, the webpack command picks it up by default. W
 
 A configuration file allows far more flexibility than CLI usage. We can specify loader rules, plugins, resolve options and many other enhancements this way
 
-https://webpack.js.org/configuration
+<https://webpack.js.org/configuration>
 
+## NPM Scripts
+
+<https://docs.npmjs.com/cli/v10/using-npm/scripts>
+
+The "scripts" property of your package.json file supports a number of built-in scripts and their preset life cycle events as well as arbitrary scripts. These all can be executed by running `npm run-script <stage>` or `npm run <stage>` for short.
+
+Given it's not particularly fun to run a local copy of webpack from the CLI, we can set up a little shortcut. Let's adjust our package.json by adding an npm script:
+
+Now the `npm run build` command can be used in place of the npx command we used earlier. Note that within scripts we can reference locally installed npm packages by name the same way we did with npx. This convention is the standard in most npm-based projects because it allows all contributors to use the same set of common scripts.
+
+Custom parameters can be passed to webpack by adding two dashes between the npm run build command and your parameters
