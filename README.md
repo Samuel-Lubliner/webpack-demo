@@ -114,3 +114,49 @@ Given it's not particularly fun to run a local copy of webpack from the CLI, we 
 Now the `npm run build` command can be used in place of the npx command we used earlier. Note that within scripts we can reference locally installed npm packages by name the same way we did with npx. This convention is the standard in most npm-based projects because it allows all contributors to use the same set of common scripts.
 
 Custom parameters can be passed to webpack by adding two dashes between the npm run build command and your parameters
+
+## Asset Management
+
+Prior to webpack, front-end developers would use tools like grunt and gulp to process these assets and move them from their /src folder into their /dist or /build directory. The same idea was used for JavaScript modules, but tools like webpack will dynamically bundle all dependencies into a dependency graph. Now every module now explicitly states its dependencies and we'll avoid bundling modules that aren't in use.
+
+You can also include any other type of file, besides JavaScript, for which there is a loader or built-in Asset Modules support. This means that the same benefits listed above for JavaScript (e.g. explicit dependencies) can be applied to everything used in building a website or web app. Let's start with CSS.
+
+## Loading CSS
+
+In order to import a CSS file from within a JavaScript module, you need to install and add the style-loader and css-loader to your module configuration:
+
+`npm install --save-dev style-loader css-loader`
+
+webpack.config.js
+
+```js
+const path = require('path');
+
+module.exports = {
+  entry: './src/index.js',
+  output: {
+    filename: 'bundle.js',
+    path: path.resolve(__dirname, 'dist'),
+  },
+module: {
+  rules: [
+    {
+      test: /\.css$/i,
+      use: ['style-loader', 'css-loader'],
+    },
+  ],
+},
+};
+```
+
+Module loaders can be chained. Each loader in the chain applies transformations to the processed resource. A chain is executed in reverse order. The first loader passes its result (resource with applied transformations) to the next one, and so forth. Finally, webpack expects JavaScript to be returned by the last loader in the chain.
+
+The above order of loaders should be maintained: 'style-loader' comes first and followed by 'css-loader'. If this convention is not followed, webpack is likely to throw errors.
+
+Tip
+webpack uses a regular expression to determine which files it should look for and serve to a specific loader. In this case, any file that ends with .css will be served to the style-loader and the css-loader.
+
+This enables you to import `'./style.css'` into the file that depends on that styling. Now, when that module is run, a `<style>` tag with the stringified css will be inserted into the `<head>` of your html file.
+
+Let's try it out by adding a new style.css file to our project and import it in our index.js
+
