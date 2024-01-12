@@ -332,3 +332,41 @@ If you open index.html in your code editor, you'll see that the HtmlWebpackPlugi
 
 If you want to learn more about all the features and options that the HtmlWebpackPlugin provides, then you should read up on it on the HtmlWebpackPlugin repo. <https://github.com/jantimon/html-webpack-plugin>
 
+## Cleaning up the /dist folder
+
+As you might have noticed over the past guides and code example, our /dist folder has become quite cluttered. Webpack will generate the files and put them in the /dist folder for you, but it doesn't keep track of which files are actually in use by your project.
+
+In general it's good practice to clean the /dist folder before each build, so that only used files will be generated. Let's take care of that with output.clean option.
+
+webpack.config.js
+
+```js const path = require('path');
+ const HtmlWebpackPlugin = require('html-webpack-plugin');
+
+ module.exports = {
+   entry: {
+     index: './src/index.js',
+     print: './src/print.js',
+   },
+   plugins: [
+     new HtmlWebpackPlugin({
+       title: 'Output Management',
+     }),
+   ],
+   output: {
+     filename: '[name].bundle.js',
+     path: path.resolve(__dirname, 'dist'),
+    clean: true,
+   },
+ };
+ ```
+
+Now run an npm run build and inspect the /dist folder. If everything went well you should now only see the files generated from the build and no more old files!
+
+## The Manifest
+
+How does webpack and its plugins seem to "know" what files are being generated. The answer is in the manifest that webpack keeps to track how all the modules map to the output bundles.
+
+The manifest data can be extracted into a json file for consumption using the WebpackManifestPlugin.
+
+Read up on the concept page and the caching guide to find out how this ties into long term caching.
