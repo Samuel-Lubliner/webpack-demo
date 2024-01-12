@@ -79,3 +79,27 @@ Run npx webpack, which will take our script at `src/index.js` as the entry point
 
 `npx webpack`
 
+# Modules
+
+The import and export statements have been standardized in ES2015. They are supported in most of the browsers at this moment, however there are some browsers that don't recognize the new syntax. But don't worry, webpack does support them out of the box.
+
+Behind the scenes, webpack "transpiles" the code so that older browsers can also run it. Webpack supports various other module syntaxes as well, see Module API for more information.
+
+## Babel
+
+Note that webpack will not alter any code other than import and export statements. If you are using other ES2015 features, make sure to use a transpiler such as Babel via webpack's loader system.
+
+# Using a Configuration
+
+As of version 4, webpack doesn't require any configuration, but most projects will need a more complex setup. This is much more efficient than having to manually type in a lot of commands in the terminal, so let's create one
+
+Now, let's run the build again but instead using our new configuration file:
+
+`$ npx webpack --config webpack.config.js`
+
+If a webpack.config.js is present, the webpack command picks it up by default. We use the `--config` option here only to show that you can pass a configuration of any name. This will be useful for more complex configurations that need to be split into multiple files.
+
+A configuration file allows far more flexibility than CLI usage. We can specify loader rules, plugins, resolve options and many other enhancements this way
+
+https://webpack.js.org/configuration
+
