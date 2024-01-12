@@ -297,3 +297,38 @@ entry: {
 ```
 
 Run `npm run build` and see what this generates:
+
+## Setting up HtmlWebpackPlugin
+
+First install the plugin and adjust the webpack.config.js file:
+
+`npm install --save-dev html-webpack-plugin`
+
+webpack.config.js
+```js
+const path = require('path');
+const HtmlWebpackPlugin = require('html-webpack-plugin');
+
+module.exports = {
+  entry: {
+    index: './src/index.js',
+    print: './src/print.js',
+  },
+plugins: [
+  new HtmlWebpackPlugin({
+    title: 'Output Management',
+  }),
+],
+  output: {
+    filename: '[name].bundle.js',
+    path: path.resolve(__dirname, 'dist'),
+  },
+};
+```
+
+Before we do a build, you should know that the HtmlWebpackPlugin by default will generate its own index.html file, even though we already have one in the dist/ folder. This means that it will replace our index.html file with a newly generated one. Let's see what happens when we do an npm run build:
+
+If you open index.html in your code editor, you'll see that the HtmlWebpackPlugin has created an entirely new file for you and that all the bundles are automatically added.
+
+If you want to learn more about all the features and options that the HtmlWebpackPlugin provides, then you should read up on it on the HtmlWebpackPlugin repo. <https://github.com/jantimon/html-webpack-plugin>
+
