@@ -158,5 +158,10 @@ webpack uses a regular expression to determine which files it should look for an
 
 This enables you to import `'./style.css'` into the file that depends on that styling. Now, when that module is run, a `<style>` tag with the stringified css will be inserted into the `<head>` of your html file.
 
-Let's try it out by adding a new style.css file to our project and import it in our index.js
+Let's try it out by adding a new style.css file to our project and import it in our index.js.
 
+## minimize
+
+You can, and in most cases should, minimize css for better load times in production. On top of that, loaders exist for pretty much any flavor of CSS you can think of – postcss, sass, and less to name a few.
+
+<https://webpack.js.org/plugins/mini-css-extract-plugin/#minimizing-for-production>
