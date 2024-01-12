@@ -207,3 +207,93 @@ Let's create a new build and open up the index.html file again:
 `$ npm run build`
 
 If all went well, you should now see your icon as a repeating background, as well as an img element beside our Hello webpack text. If you inspect this element, you'll see that the actual filename has changed to something like 29822eaa871e8eadeaa4.png. This means webpack found our file in the src folder and processed it!
+
+## Output Management
+
+First, let's adjust our project a little bit:
+
+project
+
+```bash
+webpack-demo
+|- package.json
+|- package-lock.json
+|- webpack.config.js
+|- /dist
+|- /src
+  |- index.js
+  |- print.js
+|- /node_modules
+```
+
+src/print.js
+
+```js
+export default function printMe() {
+  console.log('I get called from print.js!');
+}
+```
+
+And use that function in our src/index.js file:
+
+src/index.js
+
+```js
+import _ from 'lodash';
+import printMe from './print.js';
+
+ function component() {
+  const element = document.createElement('div');
+  const btn = document.createElement('button');
+
+  element.innerHTML = _.join(['Hello', 'webpack'], ' ');
+
+  btn.innerHTML = 'Click me and check the console!';
+  btn.onclick = printMe;
+
+  element.appendChild(btn);
+
+  return element;
+ }
+
+document.body.appendChild(component());
+```
+
+Let's also update our dist/index.html file, in preparation for webpack to split out entries:
+
+dist/index.html
+
+```html
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8" />
+  <title>Output Management</title>
+  <script src="./print.bundle.js"></script>
+  </head>
+  <body>
+  <script src="./index.bundle.js"></script>
+  </body>
+</html>
+```
+
+Now adjust the config. We'll be adding our src/print.js as a new entry point (print) and we'll change the output as well, so that it will dynamically generate bundle names, based on the entry point names:
+
+webpack.config.js
+
+```js
+const path = require('path');
+
+module.exports = {
+entry: {
+  index: './src/index.js',
+  print: './src/print.js',
+},
+  output: {
+  filename: '[name].bundle.js',
+    path: path.resolve(__dirname, 'dist'),
+  },
+};
+```
+
+Run `npm run build` and see what this generates:
