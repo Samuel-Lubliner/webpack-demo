@@ -123,7 +123,7 @@ You can also include any other type of file, besides JavaScript, for which there
 
 ## Loading CSS
 
-In order to import a CSS file from within a JavaScript module, you need to install and add the style-loader and css-loader to your module configuration:
+In order to import a CSS file from within a JavaScript module, you need to install and add the `style-loader` and `css-loader` to your module configuration:
 
 `npm install --save-dev style-loader css-loader`
 
@@ -165,3 +165,45 @@ Let's try it out by adding a new style.css file to our project and import it in 
 You can, and in most cases should, minimize css for better load times in production. On top of that, loaders exist for pretty much any flavor of CSS you can think of – postcss, sass, and less to name a few.
 
 <https://webpack.js.org/plugins/mini-css-extract-plugin/#minimizing-for-production>
+
+## Loading Images
+
+As of webpack 5, using the built-in Asset Modules we can easily incorporate those in our system as well:
+
+webpack.config.js
+
+```js
+const path = require('path');
+
+module.exports = {
+  entry: './src/index.js',
+  output: {
+    filename: 'bundle.js',
+    path: path.resolve(__dirname, 'dist'),
+  },
+  module: {
+    rules: [
+      {
+        test: /\.css$/i,
+        use: ['style-loader', 'css-loader'],
+      },
+    {
+      test: /\.(png|svg|jpg|jpeg|gif)$/i,
+      type: 'asset/resource',
+    },
+    ],
+  },
+};
+```
+
+Now, when you import `MyImage` from `'./my-image.png'`, that image will be processed and added to your output directory and the `MyImage` variable will contain the final url of that image after processing. 
+
+When using the `css-loader`, as shown above, a similar process will occur for url('./my-image.png') within your CSS. The loader will recognize this is a local file, and replace the `'./my-image.png'` path with the final path to the image in your output directory. The html-loader handles `<img src="./my-image.png" />` in the same manner.
+
+Let's add an `icon.png` to `/src`
+
+Let's create a new build and open up the index.html file again:
+
+`$ npm run build`
+
+If all went well, you should now see your icon as a repeating background, as well as an img element beside our Hello webpack text. If you inspect this element, you'll see that the actual filename has changed to something like 29822eaa871e8eadeaa4.png. This means webpack found our file in the src folder and processed it!
